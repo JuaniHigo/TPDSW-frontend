@@ -1,0 +1,18 @@
+.eventos-list-container {
+    padding: 2rem 0;
+}
+
+.eventos-list-container h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.eventos-grid {
+    display: grid;
+    /* Crea una grilla responsive: 1 columna en móviles, 2 en tablets, 3 en desktops */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}

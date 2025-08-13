@@ -1,0 +1,41 @@
+.footer {
+    width: 100%;
+    padding: 2rem;
+    background-color: #1f2937;
+    color: #9ca3af;
+    margin-top: auto;
+    border-top: 1px solid #374151;
+    
+    /* Nueva estructura con Flexbox */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-socials, .footer-copyright, .footer-placeholder {
+    flex: 1; /* Hacemos que cada sección ocupe un tercio del espacio */
+}
+
+.footer-socials {
+    display: flex;
+    justify-content: flex-start; /* Alinea los íconos a la izquierda */
+    gap: 1rem;
+}
+
+.social-link {
+    color: #9ca3af;
+    transition: color 0.2s ease-in-out;
+}
+
+.social-link:hover {
+    color: #ffffff; /* Cambia a blanco al pasar el mouse */
+}
+
+.footer-copyright {
+    text-align: center; /* Centra el texto de copyright */
+}
+
+.footer-copyright p {
+    margin: 0;
+    font-size: 0.9rem;
+}

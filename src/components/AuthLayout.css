@@ -1,0 +1,56 @@
+.auth-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 80px); /* Ocupa toda la altura menos el navbar */
+    width: 100%;
+}
+
+.auth-left-panel {
+    background-color: #111827;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    /* 3. La imagen de fondo ahora se controla desde el componente, no desde aquí */
+}
+
+.auth-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-title {
+    font-size: 4rem;
+    font-weight: 900;
+    line-height: 1.2;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.auth-right-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background-color: #1f2937; /* Fondo oscuro para el formulario */
+}
+
+/* Para pantallas pequeñas, se apila en una sola columna */
+@media (max-width: 768px) {
+    .auth-container {
+        grid-template-columns: 1fr;
+    }
+    .auth-left-panel {
+        display: none; /* Ocultamos el panel izquierdo en móviles */
+    }
+}

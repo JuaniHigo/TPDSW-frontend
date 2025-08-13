@@ -1,0 +1,116 @@
+.auth-form-card {
+    width: 100%;
+    max-width: 400px;
+    color: #d1d5db;
+}
+
+.auth-form-card h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 2rem;
+}
+
+.auth-input-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.auth-input-group .input-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+}
+
+.password-toggle-button {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    padding: 0;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    background-color: #374151;
+    border: 1px solid #4b5563;
+    border-radius: 0.5rem;
+    color: white;
+    font-size: 1rem;
+}
+
+.auth-input[type="password"], .auth-input[type="text"] {
+    padding-right: 3rem;
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.3);
+}
+
+.auth-link {
+    color: #22c55e;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.auth-link:hover {
+    text-decoration: underline;
+}
+
+.auth-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.auth-submit-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #22c55e;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.auth-submit-button:hover {
+    background-color: #16a34a;
+}
+
+.auth-switch-link {
+    text-align: right;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    color: #ef4444;
+    margin-bottom: 1rem;
+    font-weight: 500;
+    text-align: left;
+}
+
+
+.field-error-message {
+    color: #fca5a5;
+    font-size: 0.8rem;
+    text-align: left;
+    /* Ajustamos los márgenes para que se vea bien debajo del input */
+    margin-top: 0.25rem;
+}
+.auth-input.input-error {
+    border-color: #ef4444; /* Borde rojo para errores */
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}

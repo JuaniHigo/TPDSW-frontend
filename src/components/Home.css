@@ -1,0 +1,72 @@
+.home-container {
+    width: 100%;
+}
+
+.hero-section-fullscreen {
+    height: 100vh; /* Ocupa toda la altura de la pantalla */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    color: white;
+
+    /* 3. La imagen de fondo ahora se controla desde el componente, no desde aquí */
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Capa oscura semitransparente para que el texto resalte */
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-content {
+    max-width: 800px;
+    padding: 1rem;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 900;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 2.5rem;
+    opacity: 0.9;
+}
+
+.hero-button {
+    background-color: #22c55e;
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 700;
+    padding: 1rem 2.5rem;
+    border: none;
+    border-radius: 50px; /* Botón más redondeado */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+}
+
+.hero-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.5);
+}
+
+.events-section {
+    padding: 4rem 2rem;
+    background-color: #f9fafb; /* Fondo blanco para la sección de eventos */
+}

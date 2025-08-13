@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
+import EventCard from './EventCard';
+import './EventosList.css';
 
-// Definimos la forma que tienen los datos de un evento
+// Interfaz actualizada para incluir todos los campos necesarios
 interface Evento {
     id_evento: number;
     nombre_local: string;
     nombre_visitante: string;
-    nombre_estadio: string;
     fecha_hora: string;
+    torneo: string;
+    logo_local?: string;
+    logo_visitante?: string;
 }
 
 const EventosList: React.FC = () => {
@@ -15,10 +19,8 @@ const EventosList: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        // Hacemos la llamada a la API
         api.get('/eventos')
             .then(response => {
-                // Guardamos los datos que vienen dentro de la propiedad "data"
                 setEventos(response.data.data);
                 setLoading(false);
             })
@@ -26,24 +28,29 @@ const EventosList: React.FC = () => {
                 console.error("Error al obtener los eventos:", error);
                 setLoading(false);
             });
-    }, []); // El array vacío [] asegura que se ejecute solo una vez
+    }, []);
 
     if (loading) {
         return <p>Cargando eventos...</p>;
     }
 
+    if (eventos.length === 0) {
+        return (
+            <div className="eventos-list-container">
+                <h2>Próximos Eventos</h2>
+                <p>No hay eventos disponibles en este momento.</p>
+            </div>
+        );
+    }
+
     return (
-        <div>
-            <h1>Próximos Eventos</h1>
-            <ul>
+        <div className="eventos-list-container">
+            <h2>Próximos Eventos</h2>
+            <div className="eventos-grid">
                 {eventos.map(evento => (
-                    <li key={evento.id_evento}>
-                        <strong>{evento.nombre_local} vs {evento.nombre_visitante}</strong>
-                        <p>Estadio: {evento.nombre_estadio}</p>
-                        <p>Fecha: {new Date(evento.fecha_hora).toLocaleString()}</p>
-                    </li>
+                    <EventCard key={evento.id_evento} evento={evento} />
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

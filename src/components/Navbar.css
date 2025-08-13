@@ -1,0 +1,81 @@
+/* src/components/Navbar.css */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    /* Fondo oscuro con efecto de vidrio */
+    background-color: rgba(255, 255, 255,0.9);
+    border-bottom: 1px solid #374151;
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.navbar-brand h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+    color: #1f1f1fde; /* Texto del logo blanco */
+}
+
+.navbar-auth {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-button {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.9rem;
+}
+
+.nav-button.primary {
+    background-color: #22c55e;
+    color: white;
+    border-color: #22c55e;
+}
+
+.nav-button.primary:hover {
+    background-color: #16a34a;
+}
+
+.nav-button.secondary {
+    background-color: #526075;
+    color: #f9fafb;
+    border-color: #4b5563;
+}
+
+.nav-button.secondary:hover {
+    background-color: #4b5563;
+    border-color: #6b7280;
+}
+
+.logout-button {
+    background-color: #fee2e2;
+    color: #ef4444;
+    border-color: #fecaca;
+}
+
+.logout-button:hover {
+    background-color: #fca5a5;
+    color: #b91c1c;
+}
+
+.navbar-logo {
+    height: 40px;
+    width: auto;
+}

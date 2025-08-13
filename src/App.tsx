@@ -1,20 +1,36 @@
-
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Home from './components/Home';
 import Login from './components/Login';
-// Importa aquí tus otros componentes como EventosList si los tienes
-// import EventosList from './components/EventosList'; 
+import Register from './components/Register';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
+import './App.css';
+import Footer from './components/Footer';
+import EventoDetalle from './components/EventoDetalle';
+import ScrollToTop from './components/ScrollToTop';
+
+const MisEntradas = () => <h2>Mis Entradas (Página en construcción)</h2>;
+const Configuracion = () => <h2>Configuración (Página en construcción)</h2>;
 
 function App() {
     return (
-        <div className="App">
-            <nav>
-                <Link to="/">Home</Link> | <Link to="/login">Login</Link>
-            </nav>
-            <hr />
-            <Routes>
-                {/* <Route path="/" element={<EventosList />} /> */}
-                <Route path="/login" element={<Login />} />
-            </Routes>
+        <div className="app-container">
+            <ScrollToTop />
+            <Navbar />
+            <main className="content-wrap">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/evento/:id" element={<EventoDetalle />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/reset-password/:token" element={<ResetPassword />} />
+                    <Route path="/mis-entradas" element={<MisEntradas />} />
+                    <Route path="/configuracion" element={<Configuracion />} />
+                </Routes>
+            </main>
+            <Footer /> 
         </div>
     );
 }

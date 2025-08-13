@@ -1,0 +1,70 @@
+.evento-detalle-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 2rem auto;
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.detalle-header {
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    color: white;
+}
+
+.detalle-header-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    padding: 2rem;
+    width: 100%;
+    text-align: center;
+}
+
+.detalle-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    margin: 0;
+}
+
+.detalle-info-body {
+    padding: 2rem;
+}
+
+.detalle-info-body h2 {
+    font-size: 1.75rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #22c55e;
+    padding-bottom: 0.5rem;
+}
+
+.detalle-info-body p {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.comprar-button {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    margin-top: 2rem;
+    background-color: #22c55e;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.comprar-button:hover {
+    background-color: #16a34a;
+}
