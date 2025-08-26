@@ -62,13 +62,15 @@ const EventoDetalle = () => {
         }
     }, [id]);
 
-    const handleCompraClick = () => {
-        if (token) {
-            alert("Redirigir a compra de entradas"); 
-        } else {
-            navigate('/login');
-        }
-    };
+const handleCompraClick = () => {
+  if (!evento) return; // evita que se ejecute sin datos
+
+  if (token) {
+    navigate(`/comprar/${evento.id_evento}`);
+  } else {
+    navigate('/login', { state: { from: `/comprar/${evento.id_evento}` } });
+  }
+};
 
     if (loading) return <p>Cargando detalle del evento...</p>;
     if (!evento) return <p>Evento no encontrado.</p>;
@@ -110,8 +112,6 @@ const EventoDetalle = () => {
     </div>
   </div>
 )}
-
-
                 <p><strong>Información importante sobre cómo ingresar a la cancha:</strong></p>
                 <p>Socios: Los socios habilitados por el Club pueden adquirir su entrada con un canje para el sector Popular o comprar con una tarifa diferenciada una platea. Para ingresar a la cancha, deberán presentar el carnet de socio que será escaneado en los accesos.</p>
 
