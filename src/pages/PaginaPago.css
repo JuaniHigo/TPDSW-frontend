@@ -1,0 +1,85 @@
+.pagina-pago-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+}
+
+.pago-panel-izquierdo {
+    background-color: #1f2937;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    border: 1px solid #374151;
+}
+
+.pago-panel-izquierdo h1 {
+    text-align: center;
+    color: #f9fafb;
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+.pago-panel-derecho h2 {
+    font-size: 1.5rem;
+    color: #f9fafb;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #374151;
+}
+
+.metodos-pago {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.metodos-pago button {
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #4b5563;
+    background-color: #374151;
+    border-radius: 0.5rem;
+    color: #d1d5db;
+    transition: all 0.2s ease-in-out;
+}
+
+.metodos-pago button:hover {
+    background-color: #4b5563;
+    color: white;
+}
+
+.metodos-pago button.active {
+    background-color: #22c55e;
+    color: white;
+    border-color: #22c55e;
+}
+
+.pago-content {
+    margin-top: 1rem;
+}
+
+.mercadopago-wallet-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100px;
+    padding-top: 1rem;
+}
+
+.error-message {
+    color: #ef4444;
+    text-align: center;
+    font-weight: 500;
+}
+
+@media (max-width: 992px) {
+    .pagina-pago-layout {
+        grid-template-columns: 1fr;
+    }
+}

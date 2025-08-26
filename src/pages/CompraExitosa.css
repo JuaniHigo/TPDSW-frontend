@@ -1,0 +1,28 @@
+.compra-exitosa-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.compra-exitosa-container h1 {
+    color: #22c55e;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.compra-exitosa-container p {
+    color: #9ca3af;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+}
+
+.entradas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.entrada-wrapper {
+    background-color: #1f2;
+}
