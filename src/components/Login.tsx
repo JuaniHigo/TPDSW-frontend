@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import { AxiosError } from 'axios';
@@ -14,6 +14,9 @@ const Login: React.FC = () => {
     const [error, setError] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = (location.state as { from?:string})?.from || '/';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -21,7 +24,7 @@ const Login: React.FC = () => {
         try {
             const response = await api.post('/auth/login', { email, password });
             login(response.data.token);
-            navigate('/');
+            navigate(from, {replace:true}); //redirige a la pagina de la q venía
         } catch (err) {
             if (err instanceof AxiosError && err.response) {
                 setError(err.response.data.message || 'El DNI o contraseña ingresados son incorrectos.');
