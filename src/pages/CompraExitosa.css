@@ -1,0 +1,50 @@
+.compra-exitosa-container {
+    max-width: 900px;
+    margin: 3rem auto;
+    padding: 2rem;
+    text-align: center;
+}
+
+.compra-exitosa-container h1 {
+    color: #22c55e;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.compra-exitosa-container p {
+    color: #9ca3af;
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
+}
+
+.entradas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.entrada-wrapper {
+    background-color: #1f2937;
+    border: 1px solid #374151;
+    border-radius: 1rem;
+    /* Quitamos el padding para que la EventCard ocupe todo el espacio */
+}
+
+.qr-section {
+    padding: 1rem 1.5rem 1.5rem 1.5rem;
+}
+
+.qr-container {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    display: inline-block;
+    margin: 1rem auto;
+}
+
+.entrada-footer {
+    border-top: 1px dashed #4b5563;
+    padding-top: 1rem;
+    font-size: 0.9rem;
+    color: #6b7280;
+}
