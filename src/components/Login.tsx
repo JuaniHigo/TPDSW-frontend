@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom'; // 1. Importar useLocation
 import api from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import { AxiosError } from 'axios';
 import AuthLayout from './AuthLayout';
 import './AuthForm.css';
-import loginBackground from '../assets/hincha.jpg'; // Asegúrate de tener esta imagen
+import loginBackground from '../assets/hincha.jpg';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -14,9 +14,11 @@ const Login: React.FC = () => {
     const [error, setError] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
-    const location = useLocation();
+    const location = useLocation(); // 2. Obtener la información de la ubicación
 
-    const from = (location.state as { from?:string})?.from || '/';
+    // 3. Definimos a dónde debe ir el usuario después del login.
+    // Si el 'state' tiene una ruta 'from', la usamos. Si no, va a la Home.
+    const from = location.state?.from || '/';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,7 +26,8 @@ const Login: React.FC = () => {
         try {
             const response = await api.post('/auth/login', { email, password });
             login(response.data.token);
-            navigate(from, {replace:true}); //redirige a la pagina de la q venía
+            // 4. Usamos la ruta 'from' para la redirección
+            navigate(from, { replace: true });
         } catch (err) {
             if (err instanceof AxiosError && err.response) {
                 setError(err.response.data.message || 'El DNI o contraseña ingresados son incorrectos.');

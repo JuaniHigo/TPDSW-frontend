@@ -30,7 +30,7 @@ interface Estadio {
 }
 
 const EventoDetalle = () => {
-    const { id: eventoId } = useParams<{ id: string }>(); // Renombrado para mayor claridad
+    const { id: eventoId } = useParams<{ id: string }>();
     const [evento, setEvento] = useState<EventoDetalleData | null>(null);
     const [estadio, setEstadio] = useState<Estadio | null>(null);
     const [loading, setLoading] = useState(true);
@@ -60,41 +60,30 @@ const EventoDetalle = () => {
         }
     }, [eventoId]);
 
+    // --- ESTA ES LA VERSIÓN CORRECTA Y UNIFICADA DE LA FUNCIÓN ---
     const handleCompraClick = () => {
-        // Primero, verificamos si el usuario está logueado
-        if (!token) {
-            navigate('/login');
-            return;
-        }
+        const destination = `/evento/${eventoId}/comprar`;
 
-        // Si está logueado y tenemos un ID de evento, procedemos
-        if (eventoId) {
-            // 1. Guardamos datos de prueba en el contexto global de compra
-            setPurchase({
-                eventoId: eventoId,
-                sectorId: '1', // Usamos un ID de sector de prueba
-                quantity: 1
-            });
-
-            // 2. Navegamos a la página de pago específica de este evento
-            navigate(`/evento/${eventoId}/comprar`);
+        if (token) {
+            // Si el usuario está logueado, lo mandamos a la página de pago
+            if (eventoId) {
+                setPurchase({
+                    eventoId: eventoId,
+                    sectorId: '1', // Usamos un ID de sector de prueba
+                    quantity: 1
+                });
+                navigate(destination);
+            }
         } else {
-            console.error("No se encontró el ID del evento para iniciar la compra.");
-            alert("Hubo un error, por favor intenta de nuevo.");
+            // Si no está logueado, lo mandamos al login, pero le "decimos" a dónde volver
+            navigate('/login', { state: { from: destination } });
         }
     };
-const handleCompraClick = () => {
-  if (!evento) return; // evita que se ejecute sin datos
-
-  if (token) {
-    navigate(`/comprar/${evento.id_evento}`);
-  } else {
-    navigate('/login', { state: { from: `/comprar/${evento.id_evento}` } });
-  }
-};
+    // ------------------------------------
 
     if (loading) return <p>Cargando detalle del evento...</p>;
     if (!evento) return <p>Evento no encontrado.</p>;
+
 
     const placeholderImage = `https://placehold.co/1200x400/1f2937/ffffff?text=${evento.nombre_local}%20vs%20${evento.nombre_visitante}`;
 
@@ -132,23 +121,6 @@ const handleCompraClick = () => {
                     </div>
                 )}
 
-{estadio && (
-  <div className="detalle-estadio">
-    <p><strong>Dirección:</strong> {estadio.calle} {estadio.numero}</p>
-
-    {/* Miniatura del mapa */}
-    <div className="mapa-container">
-      <iframe
-        src={`https://www.google.com/maps?q=${encodeURIComponent(estadio.calle + ' ' + estadio.numero + ' ' + estadio.ciudad)}&output=embed`}
-        width="100%"
-        height="300"
-        style={{ border: 0 }}
-        allowFullScreen
-        loading="lazy"
-      ></iframe>
-    </div>
-  </div>
-)}
                 <p><strong>Información importante sobre cómo ingresar a la cancha:</strong></p>
                 <p>Socios: Los socios habilitados por el Club pueden adquirir su entrada con un canje para el sector Popular o comprar con una tarifa diferenciada una platea. Para ingresar a la cancha, deberán presentar el carnet de socio que será escaneado en los accesos.</p>
 
