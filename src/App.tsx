@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
+import DashboardH from './pages/dashboardH';
 import './App.css';
 import Footer from './components/Footer';
 import EventoDetalle from './components/EventoDetalle';
@@ -28,6 +29,8 @@ function App() {
                     <Route path="/reset-password/:token" element={<ResetPassword />} />
                     <Route path="/mis-entradas" element={<MisEntradas />} />
                     <Route path="/configuracion" element={<Configuracion />} />
+                    <Route path="/dashboardH" element={<DashboardH />} />
+                  
                 </Routes>
             </main>
             <Footer /> 

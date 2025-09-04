@@ -5,7 +5,7 @@ import { useAuth } from '../hooks/useAuth';
 import { AxiosError } from 'axios';
 import AuthLayout from './AuthLayout';
 import './AuthForm.css';
-import loginBackground from '../assets/hincha.jpg'; // Asegúrate de tener esta imagen
+import loginBackground from '../assets/hincha.jpg';
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
@@ -20,9 +20,33 @@ const Login: React.FC = () => {
         setError('');
         try {
             const response = await api.post('/auth/login', { email, password });
+            
+            console.log('Respuesta completa del servidor:', response.data); // IMPORTANTE: Ver qué devuelve
+            
+            // Guardar el token
             login(response.data.token);
-            navigate('/');
+            
+            // Intentar guardar información del usuario
+            if (response.data.user) {
+                console.log('Guardando usuario:', response.data.user);
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+            } else {
+                console.warn('El servidor no envió información del usuario');
+                // Crear un usuario temporal o hacer otra llamada API
+                // Por ahora, guardamos los datos que podamos inferir del email
+                const tempUser = {
+                    email: email,
+                    nombre: email.split('@')[0], // Usar parte del email como nombre temporal
+                    id: Date.now() // ID temporal
+                };
+                localStorage.setItem('user', JSON.stringify(tempUser));
+            }
+            
+            console.log('Login exitoso, navegando a dashboard...');
+            navigate('/dashboardH');
+            
         } catch (err) {
+            console.error('Error en login:', err);
             if (err instanceof AxiosError && err.response) {
                 setError(err.response.data.message || 'El DNI o contraseña ingresados son incorrectos.');
             } else {

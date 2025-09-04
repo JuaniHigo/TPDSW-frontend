@@ -3,6 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import './ProfileMenu.css'; // Crearemos este archivo para los estilos
 
+import UserMenu from "../components/UserMenu";
+
+// dentro del JSX
+<UserMenu />
+
+
 const ProfileMenu: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { logout } = useAuth();
@@ -43,6 +49,13 @@ const ProfileMenu: React.FC = () => {
                     <Link to="/configuracion" className="dropdown-item" onClick={() => setIsOpen(false)}>
                         Configuración
                     </Link>
+                
+                     <Link to="/dashboardH" className="dropdown-item" onClick={() => setIsOpen(false)}>
+                        Mi Perfil
+                    </Link>
+
+        
+                    
                     <div className="dropdown-divider"></div>
                     <button onClick={handleLogout} className="dropdown-item logout">
                         Cerrar Sesión
