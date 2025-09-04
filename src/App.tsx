@@ -5,6 +5,9 @@ import Login from './components/Login';
 import Register from './components/Register';
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
+import DashboardH from './pages/dashboardH';
+import './App.css';
+import Footer from './components/Footer';
 import EventoDetalle from './components/EventoDetalle';
 import PaginaPago from './pages/PaginaPago'; // Asegúrate que la ruta sea correcta
 import ScrollToTop from './components/ScrollToTop';
@@ -34,6 +37,8 @@ function App() {
                     <Route path="/reset-password/:token" element={<ResetPassword />} />
                     <Route path="/mis-entradas" element={<MisEntradas />} />
                     <Route path="/configuracion" element={<Configuracion />} />
+                    <Route path="/dashboardH" element={<DashboardH />} />
+             
                     <Route path="/compra-exitosa" element={<CompraExitosa />} />
                 </Routes>
             </main>
