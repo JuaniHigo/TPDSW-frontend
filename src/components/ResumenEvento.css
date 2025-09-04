@@ -1,0 +1,10 @@
+.resumen-evento-wrapper {
+    position: sticky; /* Hacemos que se quede fijo al hacer scroll */
+    top: 100px;      /* Le damos un espacio desde la barra de navegación */
+}
+
+/* Pequeño ajuste para que la tarjeta no se agrande al pasar el mouse */
+.resumen-evento-wrapper .event-card:hover {
+    transform: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}

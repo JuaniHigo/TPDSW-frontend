@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom'; // 1. Importar useLocation
 import api from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import { AxiosError } from 'axios';
@@ -14,6 +14,11 @@ const Login: React.FC = () => {
     const [error, setError] = useState('');
     const { login } = useAuth();
     const navigate = useNavigate();
+    const location = useLocation(); // 2. Obtener la información de la ubicación
+
+    // 3. Definimos a dónde debe ir el usuario después del login.
+    // Si el 'state' tiene una ruta 'from', la usamos. Si no, va a la Home.
+    const from = location.state?.from || '/';
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -45,6 +50,9 @@ const Login: React.FC = () => {
             console.log('Login exitoso, navegando a dashboard...');
             navigate('/dashboardH');
             
+            // 4. Usamos la ruta 'from' para la redirección
+            navigate(from, { replace: true });
+          
         } catch (err) {
             console.error('Error en login:', err);
             if (err instanceof AxiosError && err.response) {
