@@ -11,9 +11,11 @@ import Footer from './components/Footer';
 import EventoDetalle from './components/EventoDetalle';
 import PaginaPago from './pages/PaginaPago'; // Asegúrate que la ruta sea correcta
 import ScrollToTop from './components/ScrollToTop';
-import Footer from './components/Footer';
 import './App.css';
 import CompraExitosa from './pages/CompraExitosa';
+import AdminPanel from './pages/AdminPanel';
+import Eventos from './pages/Eventos';
+import Clubes from './pages/Clubes.tsx';
 
 
 // Componentes temporales
@@ -38,8 +40,10 @@ function App() {
                     <Route path="/mis-entradas" element={<MisEntradas />} />
                     <Route path="/configuracion" element={<Configuracion />} />
                     <Route path="/dashboardH" element={<DashboardH />} />
-             
                     <Route path="/compra-exitosa" element={<CompraExitosa />} />
+                    <Route path="/admin" element={<AdminPanel />} />
+                    <Route path="/admin/eventos" element={<Eventos />} />
+                    <Route path="/admin/clubes" element={<Clubes />} />
                 </Routes>
             </main>
             <Footer /> 
