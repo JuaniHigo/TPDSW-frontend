@@ -7,7 +7,6 @@ import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import DashboardH from './pages/dashboardH';
 import './App.css';
-import Footer from './components/Footer';
 import EventoDetalle from './components/EventoDetalle';
 import PaginaPago from './pages/PaginaPago'; // Asegúrate que la ruta sea correcta
 import ScrollToTop from './components/ScrollToTop';

@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
-import MercadoPagoButton from '../components/MercadoPagoButton';
 import { usePurchase } from '../hooks/usePurchase';
 import './FormularioTarjeta.css';
 
