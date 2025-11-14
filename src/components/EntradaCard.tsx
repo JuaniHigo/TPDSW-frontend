@@ -1,5 +1,5 @@
 import QRCode from "react-qr-code";
-import { EntradaComprada } from "../services/entradasService";
+import type { EntradaComprada } from "../services/entradasService";
 import "./EntradaCard.css";
 
 interface Props {
