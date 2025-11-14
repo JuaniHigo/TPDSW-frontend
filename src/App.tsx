@@ -1,5 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from "../src/hooks/useAuth";
+import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -20,18 +19,7 @@ import EditarClub from './pages/admin/EditarClub';
 import EditarEstadio from './pages/admin/EditarEstadio';
 
 
-const AdminRoute = ({ children }: { children: React.ReactNode }) => {
-  const { user } = useAuth();
-  return user?.rol === "admin" ? children : <Navigate to="/" />;
-};
 
-
-// Uso
-<Route path="/admin" element={
-  <AdminRoute>
-    <AdminPanel />
-  </AdminRoute>
-} />
 
 // Componentes temporales
 const MisEntradas = () => <h2>Mis Entradas (Página en construcción)</h2>;
@@ -57,7 +45,7 @@ function App() {
                     <Route path="/dashboardH" element={<DashboardH />} />
                     <Route path="/compra-exitosa" element={<CompraExitosa />} />
                     <Route path="/admin" element={<AdminPanel />} />
-                    <Route path="/admin/EditarEvento" element={<EditarEvento />} />
+                    <Route path="/admin/EditarEvento/:id" element={<EditarEvento />} />
                     <Route path="/admin/EditarClub" element={<EditarClub />} />
                     <Route path="/admin/EditarEstadio" element={<EditarEstadio />} />
 
