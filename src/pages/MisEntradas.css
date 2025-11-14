@@ -1,0 +1,42 @@
+.mis-entradas-container {
+  max-width: 1000px;
+  min-height: 60vh;
+  margin: 2rem auto;
+  padding: 0 2rem 2rem 2rem;
+  color: white;
+}
+
+.mis-entradas-container h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #22c55e; /*verde marca Kicket */
+  padding-bottom: 0.5rem;
+}
+
+.loading-msg,
+.error-msg,
+.info-msg {
+  font-size: 1.2rem;
+  color: #9ca3af;
+  text-align: center;
+  padding: 2rem;
+}
+
+.error-msg {
+  color: #ef4444;
+}
+
+.entradas-grid-historial {
+  display: grid;
+  /* 1 columna en móvil, 2 en tablet/desktop */
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 2rem;
+}
+
+@media (max-width: 500px) {
+  .entradas-grid-historial {
+    grid-template-columns: 1fr;
+  }
+}
