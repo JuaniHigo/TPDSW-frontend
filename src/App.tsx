@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { useAuth } from "../src/hooks/useAuth";
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -14,9 +15,23 @@ import ScrollToTop from './components/ScrollToTop';
 import './App.css';
 import CompraExitosa from './pages/CompraExitosa';
 import AdminPanel from './pages/AdminPanel';
-import Eventos from './pages/Eventos';
-import Clubes from './pages/Clubes.tsx';
+import EditarEvento from './pages/admin/EditarEvento';
+import EditarClub from './pages/admin/EditarClub';
+import EditarEstadio from './pages/admin/EditarEstadio';
 
+
+const AdminRoute = ({ children }: { children: React.ReactNode }) => {
+  const { user } = useAuth();
+  return user?.rol === "admin" ? children : <Navigate to="/" />;
+};
+
+
+// Uso
+<Route path="/admin" element={
+  <AdminRoute>
+    <AdminPanel />
+  </AdminRoute>
+} />
 
 // Componentes temporales
 const MisEntradas = () => <h2>Mis Entradas (Página en construcción)</h2>;
@@ -42,8 +57,11 @@ function App() {
                     <Route path="/dashboardH" element={<DashboardH />} />
                     <Route path="/compra-exitosa" element={<CompraExitosa />} />
                     <Route path="/admin" element={<AdminPanel />} />
-                    <Route path="/admin/eventos" element={<Eventos />} />
-                    <Route path="/admin/clubes" element={<Clubes />} />
+                    <Route path="/admin/EditarEvento" element={<EditarEvento />} />
+                    <Route path="/admin/EditarClub" element={<EditarClub />} />
+                    <Route path="/admin/EditarEstadio" element={<EditarEstadio />} />
+
+
                 </Routes>
             </main>
             <Footer /> 
