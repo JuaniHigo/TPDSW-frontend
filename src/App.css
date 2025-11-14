@@ -1,15 +1,13 @@
-/* src/App.css */
 .app-container {
   /* Este contenedor es necesario para que el z-index funcione correctamente */
   position: relative;
 }
 
 #root {
-  max-width: 1280px;
+  max-width: 100%;
   margin: 0 auto;
   text-align: center;
 }
-
 
 .content-wrap {
   position: relative;
