@@ -11,7 +11,7 @@ export default function Dashboard() {
     const checkAuth = () => {
       const storedUser = localStorage.getItem("user");
       const storedToken = localStorage.getItem("token");
-      
+
       if (!storedToken) {
         navigate("/login");
         return;
@@ -32,7 +32,7 @@ export default function Dashboard() {
         navigate("/login");
         return;
       }
-      
+
       setLoading(false);
     };
 
@@ -56,9 +56,9 @@ export default function Dashboard() {
   if (!user) return null;
 
   return (
-    <div style={{ 
-      display: 'flex', 
-      minHeight: '100vh', 
+    <div style={{
+      display: 'flex',
+      minHeight: '100vh',
       backgroundColor: '#111827',
       color: 'white',
       fontFamily: 'system-ui, -apple-system, sans-serif'
@@ -69,7 +69,7 @@ export default function Dashboard() {
         backgroundColor: '#1f2937',
         padding: '24px 0',
         borderRight: '1px solid #374151',
-        
+
       }}>
         {/* User Profile */}
         <div style={{
@@ -130,14 +130,14 @@ export default function Dashboard() {
             color: '#d1d5db',
             transition: 'all 0.2s'
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#374151';
-            e.currentTarget.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.color = '#d1d5db';
-          }}>
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#374151';
+              e.currentTarget.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = '#d1d5db';
+            }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <span style={{ marginRight: '12px' }}>👤</span>
               <span>Mi cuenta</span>
@@ -145,7 +145,7 @@ export default function Dashboard() {
             <span>›</span>
           </div>
 
-          {/* Trámites personales */}
+          {/* Mis Entradas */}
           <div style={{
             display: 'flex',
             alignItems: 'center',
@@ -156,119 +156,23 @@ export default function Dashboard() {
             color: '#d1d5db',
             transition: 'all 0.2s'
           }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#374151';
-            e.currentTarget.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.color = '#d1d5db';
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <span style={{ marginRight: '12px' }}>📋</span>
-              <span>Trámites personales</span>
-            </div>
-            <span>›</span>
-          </div>
-
-          {/* Tickets */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '12px 16px',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            color: '#d1d5db',
-            transition: 'all 0.2s'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#374151';
-            e.currentTarget.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.color = '#d1d5db';
-          }}>
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = '#374151';
+              e.currentTarget.style.color = 'white';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'transparent';
+              e.currentTarget.style.color = '#d1d5db';
+            }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <span style={{ marginRight: '12px' }}>🎫</span>
-              <span>Tickets</span>
+              <span>Mis Entradas</span>
             </div>
             <span>›</span>
-          </div>
-
-          {/* Abonos */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '12px 16px',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            color: '#d1d5db',
-            transition: 'all 0.2s'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#374151';
-            e.currentTarget.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.color = '#d1d5db';
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <span style={{ marginRight: '12px' }}>💳</span>
-              <span>Abonos</span>
-            </div>
-            <span>›</span>
-          </div>
-
-          {/* Cambiar usuario */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '12px 16px',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            color: '#d1d5db',
-            transition: 'all 0.2s'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#374151';
-            e.currentTarget.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.color = '#d1d5db';
-          }}>
-            <span style={{ marginRight: '12px' }}>👥</span>
-            <span>Cambiar usuario</span>
-          </div>
-
-          {/* Contacto */}
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            padding: '12px 16px',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            color: '#d1d5db',
-            transition: 'all 0.2s'
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#374151';
-            e.currentTarget.style.color = 'white';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = 'transparent';
-            e.currentTarget.style.color = '#d1d5db';
-          }}>
-            <span style={{ marginRight: '12px' }}>✉️</span>
-            <span>Contacto</span>
           </div>
 
           {/* Cerrar sesión */}
-          <button 
+          <button
             onClick={handleLogout}
             style={{
               display: 'flex',
@@ -281,7 +185,10 @@ export default function Dashboard() {
               border: 'none',
               width: '100%',
               textAlign: 'left',
-              transition: 'all 0.2s'
+              transition: 'all 0.2s',
+              fontSize: '16px',      /* 👈 Agregamos esto para igualar el tamaño */
+              fontFamily: 'inherit'  /* 👈 Agregamos esto para igualar la tipografía */
+
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.backgroundColor = '#dc2626';
@@ -310,9 +217,9 @@ export default function Dashboard() {
           overflow: 'hidden'
         }}>
           <div style={{ position: 'relative', zIndex: 2 }}>
-            <h1 style={{ 
-              fontSize: '3rem', 
-              fontWeight: 'bold', 
+            <h1 style={{
+              fontSize: '3rem',
+              fontWeight: 'bold',
               lineHeight: '1.1',
               marginBottom: '16px'
             }}>
@@ -389,9 +296,9 @@ export default function Dashboard() {
                   backgroundColor: '#fbbf24',
                   borderRadius: '4px'
                 }}></div>
-                <span style={{ fontSize: '12px' }}>DEFENSA Y<br/>JUSTICIA</span>
+                <span style={{ fontSize: '12px' }}>DEFENSA Y<br />JUSTICIA</span>
               </div>
-              <span style={{ color: '#9ca3af', fontWeight: 'bold' , margin: '0 10px'}}>vs</span>
+              <span style={{ color: '#9ca3af', fontWeight: 'bold', margin: '0 10px' }}>vs</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '13px' }}>
                 <span style={{ fontSize: '12px', textAlign: 'right' }}>NEWELL'S</span>
                 <div style={{
@@ -420,9 +327,9 @@ export default function Dashboard() {
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: '#10b981' }}>
                 PLANTEL DE PRIMERA
               </h2>
-              <span style={{ 
-                color: '#ef4444', 
-                fontSize: '14px', 
+              <span style={{
+                color: '#ef4444',
+                fontSize: '14px',
                 cursor: 'pointer',
                 textDecoration: 'underline'
               }}>
@@ -462,7 +369,7 @@ export default function Dashboard() {
                   alignItems: 'center',
                   justifyContent: 'space-between',
                   fontSize: '12px'
-                  
+
                 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <div style={{
@@ -473,7 +380,7 @@ export default function Dashboard() {
                     }}></div>
                     <span>Defensa y Justicia</span>
                   </div>
-                  <span style={{ color: '#9ca3af' , margin: '0 10px'}}>vs.</span>
+                  <span style={{ color: '#9ca3af', margin: '0 10px' }}>vs.</span>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     <span>Newell's</span>
                     <div style={{
@@ -504,7 +411,7 @@ export default function Dashboard() {
                   fontSize: '14px',
                   color: '#d1d5db',
                   marginBottom: '12px'
-                  
+
                 }}>
                   Domingo, 24 Agosto<br />
                   14:00 hs
@@ -690,5 +597,3 @@ export default function Dashboard() {
     </div>
   );
 }
-
-
