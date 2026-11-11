@@ -1,16 +1,20 @@
 import { createContext } from 'react';
-
-// 1. Definimos y exportamos las interfaces (los "tipos" de datos)
 export interface PurchaseState {
-    eventoId: string | null;
-    sectorId: string | null;
-    quantity: number;
+  eventoId: number | null;
+  sectorId: number | null;
+  quantity: number;
+  idempotencyKey?: string;
 }
-
 export interface PurchaseContextType {
-    purchase: PurchaseState;
-    setPurchase: (purchase: PurchaseState) => void;
+  purchase: PurchaseState;
+  setPurchase: (value: PurchaseState) => void;
+  clearPurchase: () => void;
 }
-
-// 2. Creamos y exportamos el objeto Context
-export const PurchaseContext = createContext<PurchaseContextType | undefined>(undefined);
+export const emptyPurchase: PurchaseState = {
+  eventoId: null,
+  sectorId: null,
+  quantity: 1,
+};
+export const PurchaseContext = createContext<PurchaseContextType | undefined>(
+  undefined,
+);

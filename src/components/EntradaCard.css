@@ -53,6 +53,8 @@
 
 .entrada-info {
   text-align: left;
+  min-width: 0;
+  flex: 1;
 }
 
 .entrada-info p {
@@ -74,4 +76,24 @@
   background: white;
   padding: 1rem;
   border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+.team-placeholder {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border: 1px solid #6b7280;
+  border-radius: 50%;
+  color: #6ee7b7;
+  font-weight: 700;
+}
+@media (max-width: 600px) {
+  .entrada-body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .entrada-qr {
+    align-self: center;
+  }
 }

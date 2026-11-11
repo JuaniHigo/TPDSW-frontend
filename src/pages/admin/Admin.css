@@ -1,0 +1,86 @@
+.admin-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+}
+.admin-container form {
+  background: #1f2937;
+  border: 1px solid #374151;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin: 1.25rem 0;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.admin-container form h2 {
+  width: 100%;
+  margin: 0;
+}
+.admin-container label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1 1 200px;
+}
+.admin-container input,
+.admin-container select,
+.evento-detalle-container select,
+.evento-detalle-container input {
+  padding: 0.7rem;
+  border: 1px solid #6b7280;
+  border-radius: 6px;
+  background: #111827;
+  color: #f9fafb;
+  max-width: 100%;
+}
+.admin-container button,
+.pagina-pago-layout button,
+.evento-detalle-container button,
+.compra-exitosa-container button {
+  background: #059669;
+  color: white;
+  border: 0;
+  border-radius: 6px;
+  padding: 0.7rem 1rem;
+  cursor: pointer;
+}
+.admin-container button:disabled,
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.admin-container table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+.admin-container th,
+.admin-container td {
+  text-align: left;
+  padding: 0.7rem;
+  border-bottom: 1px solid #374151;
+}
+.admin-container td button {
+  margin: 0.25rem;
+}
+.admin-table-wrap {
+  overflow-x: auto;
+}
+.admin-nav {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.admin-container [role='alert'] {
+  color: #fca5a5;
+}
+.evento-detalle-container label {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 1rem 0;
+}
+.admin-container a {
+  color: #6ee7b7;
+}

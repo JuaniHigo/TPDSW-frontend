@@ -1,81 +1,174 @@
-import { useState, useEffect } from "react";
-
-interface Evento {
-  id: number;
-  nombre: string;
-  fecha: string;
+import { useCallback, useEffect, useState } from 'react';
+import ResourceEditor from './ResourceEditor';
+import api, { getAll, errorMessage } from '../../services/api';
+import type { Evento, Sector } from '../../types/api';
+interface Precio {
+  fkIdEvento: number;
+  fkIdSector: number;
+  precio: string;
 }
-
-const EditarEvento = () => {
-  const [eventos, setEventos] = useState<Evento[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  // Traer eventos del backend
-  const fetchEventos = async () => {
-    try {
-      const res = await fetch("http://localhost:3000/api/eventos"); // Cambiar por tu endpoint real
-      const data = await res.json();
-      setEventos(data);
-      setLoading(false);
-    } catch (err) {
-      console.error(err);
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchEventos();
+export default function EditarEvento() {
+  const [events, setEvents] = useState<Evento[]>([]),
+    [eventId, setEventId] = useState(0),
+    [sectors, setSectors] = useState<Sector[]>([]),
+    [sectorId, setSectorId] = useState(0),
+    [prices, setPrices] = useState<Precio[]>([]),
+    [precio, setPrecio] = useState(''),
+    [error, setError] = useState(''),
+    [busy, setBusy] = useState(false);
+  const loadEvents = useCallback(() => {
+    getAll<Evento>('/eventos')
+      .then(setEvents)
+      .catch((e) => setError(errorMessage(e)));
   }, []);
-
-  // Eliminar evento
-  const eliminarEvento = async (id: number) => {
+  useEffect(loadEvents, [loadEvents]);
+  const stadiumId = events.find((e) => e.idEvento === eventId)?.fkIdEstadio;
+  const loadPrices = useCallback(async () => {
+    if (!eventId) return;
     try {
-      await fetch(`http://localhost:3000/api/eventos/${id}`, { method: "DELETE" });
-      setEventos(eventos.filter(e => e.id !== id));
-    } catch (err) {
-      console.error(err);
+      setPrices(await getAll<Precio>('/precios/evento/' + eventId));
+    } catch (e) {
+      setError(errorMessage(e));
     }
-  };
-
-  if (loading) return <p className="p-8">Cargando eventos...</p>;
-
+  }, [eventId]);
+  useEffect(() => {
+    setSectorId(0);
+    setPrecio('');
+    if (stadiumId) {
+      getAll<Sector>('/sectores?fkIdEstadio=' + stadiumId)
+        .then(setSectors)
+        .catch((e) => setError(errorMessage(e)));
+      void loadPrices();
+    } else {
+      setSectors([]);
+      setPrices([]);
+    }
+  }, [stadiumId, loadPrices]);
+  async function save(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setError('');
+    try {
+      await api.post('/precios', {
+        fkIdEvento: eventId,
+        fkIdSector: sectorId,
+        precio,
+      });
+      await loadPrices();
+      setPrecio('');
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function remove(sid: number) {
+    if (!window.confirm('¿Eliminar este precio?')) return;
+    setBusy(true);
+    try {
+      await api.delete('/precios/' + eventId + '/' + sid);
+      await loadPrices();
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
+  }
   return (
-    <div className="p-8 min-h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold mb-6">Editar Eventos</h1>
-      <button className="mb-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-        Agregar Evento
-      </button>
-
-      <table className="w-full bg-white shadow rounded-lg overflow-hidden">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="text-left p-4">Nombre</th>
-            <th className="text-left p-4">Fecha</th>
-            <th className="text-left p-4">Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {eventos.map((evento) => (
-            <tr key={evento.id} className="border-b">
-              <td className="p-4">{evento.nombre}</td>
-              <td className="p-4">{evento.fecha}</td>
-              <td className="p-4">
-                <button className="bg-yellow-500 text-white px-3 py-1 rounded mr-2 hover:bg-yellow-600 transition">
-                  Editar
-                </button>
-                <button
-                  onClick={() => eliminarEvento(evento.id)}
-                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition"
-                >
-                  Eliminar
-                </button>
-              </td>
-            </tr>
+    <div className="admin-container">
+      <h1>Eventos y precios</h1>
+      <ResourceEditor kind="eventos" onChanged={loadEvents} />
+      <h2>Precios por sector</h2>
+      <p>
+        Creá el evento como Programado, asigná precios y luego cambialo a En
+        Venta.
+      </p>
+      {error && <p role="alert">{error}</p>}
+      <label>
+        Evento
+        <select
+          value={eventId}
+          onChange={(e) => setEventId(Number(e.target.value))}
+        >
+          <option value={0}>Seleccionar evento</option>
+          {events.map((e) => (
+            <option key={e.idEvento} value={e.idEvento}>
+              {e.nombreLocal} vs {e.nombreVisitante} · #{e.idEvento}
+            </option>
           ))}
-        </tbody>
-      </table>
+        </select>
+      </label>
+      {eventId > 0 && (
+        <>
+          <form onSubmit={(e) => void save(e)}>
+            <label>
+              Sector
+              <select
+                required
+                value={sectorId || ''}
+                onChange={(e) => setSectorId(Number(e.target.value))}
+              >
+                <option value="">Seleccionar sector</option>
+                {sectors.map((s) => (
+                  <option key={s.idSector} value={s.idSector}>
+                    {s.nombreSector}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Precio en ARS
+              <input
+                required
+                type="number"
+                min=".01"
+                step=".01"
+                value={precio}
+                onChange={(e) => setPrecio(e.target.value)}
+              />
+            </label>
+            <button disabled={busy}>Guardar precio</button>
+          </form>
+          <table>
+            <thead>
+              <tr>
+                <th>Sector</th>
+                <th>Precio</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {prices.map((p) => (
+                <tr key={p.fkIdSector}>
+                  <td>
+                    {
+                      sectors.find((s) => s.idSector === p.fkIdSector)
+                        ?.nombreSector
+                    }
+                  </td>
+                  <td>$ {p.precio}</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        setSectorId(p.fkIdSector);
+                        setPrecio(p.precio);
+                      }}
+                    >
+                      Editar
+                    </button>
+                    <button
+                      disabled={busy}
+                      onClick={() => void remove(p.fkIdSector)}
+                    >
+                      Eliminar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
     </div>
   );
-};
-
-export default EditarEvento;
+}

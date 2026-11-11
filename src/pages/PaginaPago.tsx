@@ -1,92 +1,103 @@
-import { useState, useEffect } from 'react';
-import { initMercadoPago } from '@mercadopago/sdk-react';
-import api from '../services/api';
-import FormularioTarjeta from '../components/FormularioTarjeta';
-import MercadoPagoButton from '../components/MercadoPagoButton';
-import ResumenEvento from '../components/ResumenEvento'; // 1. Importar el nuevo componente
+import { useState } from 'react';
+import { isAxiosError } from 'axios';
+import { Link, useParams } from 'react-router-dom';
 import { usePurchase } from '../hooks/usePurchase';
+import api, { errorMessage } from '../services/api';
+import ResumenEvento from '../components/ResumenEvento';
+import { usePaymentConfig } from '../hooks/usePaymentConfig';
+import DemoNotice from '../components/DemoNotice';
 import './PaginaPago.css';
-
-const PaginaPago = () => {
-    const { purchase } = usePurchase();
-    const [metodoPago, setMetodoPago] = useState<'tarjeta' | 'mercadopago' | null>('tarjeta'); // Inicia en tarjeta por defecto
-    const [preferenceId, setPreferenceId] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        initMercadoPago(import.meta.env.VITE_MP_PUBLIC_KEY as string, {
-            locale: 'es-AR'
-        });
-    }, []);
-
-    const handleCrearPreferencia = async () => {
-        if (!purchase.eventoId || !purchase.sectorId) {
-            setError('Error: Debes seleccionar un evento y sector primero.');
-            return;
+export default function PaginaPago() {
+  const { config, error: configError } = usePaymentConfig();
+  const { purchase, setPurchase } = usePurchase(),
+    id = Number(useParams().id);
+  const [loading, setLoading] = useState(false),
+    [error, setError] = useState('');
+  const [compraId, setCompraId] = useState<number | null>(null);
+  const valid =
+    purchase.eventoId === id && purchase.sectorId && purchase.quantity > 0;
+  async function pay() {
+    if (!valid || !config?.purchasesEnabled) return;
+    setLoading(true);
+    setError('');
+    const key = purchase.idempotencyKey || crypto.randomUUID();
+    setPurchase({ ...purchase, idempotencyKey: key });
+    try {
+      const { data } = await api.post<{
+        idCompra: number;
+        checkoutUrl: string;
+      }>(
+        '/pagos/crear-preferencia',
+        {
+          eventoId: id,
+          sectorId: purchase.sectorId,
+          quantity: purchase.quantity,
+        },
+        { headers: { 'Idempotency-Key': key } },
+      );
+      sessionStorage.setItem('lastCompraId', String(data.idCompra));
+      window.location.assign(data.checkoutUrl);
+    } catch (e) {
+      if (isAxiosError<{ errors?: { idCompra?: number } }>(e)) {
+        const compra = e.response?.data.errors?.idCompra;
+        if (compra) {
+          setCompraId(compra);
+          sessionStorage.setItem('lastCompraId', String(compra));
         }
-        setLoading(true);
-        setError(null);
-        try {
-            const response = await api.post('/pagos/crear-preferencia-mp', {
-                eventoId: purchase.eventoId,
-                sectorId: purchase.sectorId,
-                quantity: purchase.quantity,
-            });
-            setPreferenceId(response.data.preferenceId);
-        } catch (err: unknown) {
-            setError('No se pudo generar el enlace de pago.');
-            console.error(err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    const handleSeleccionarMercadoPago = () => {
-        setMetodoPago('mercadopago');
-        // Solo creamos la preferencia si aún no se ha creado
-        if (!preferenceId) {
-            handleCrearPreferencia();
-        }
-    };
-
-    return (
-        <div className="pagina-pago-layout">
-            <div className="pago-panel-izquierdo">
-                <h1>Elige tu método de pago</h1>
-                <div className="metodos-pago">
-                    <button 
-                        onClick={() => setMetodoPago('tarjeta')}
-                        className={metodoPago === 'tarjeta' ? 'active' : ''}
-                    >
-                        Tarjeta de Crédito/Débito
-                    </button>
-                    <button 
-                        onClick={handleSeleccionarMercadoPago}
-                        className={metodoPago === 'mercadopago' ? 'active' : ''}
-                    >
-                        Mercado Pago
-                    </button>
-                </div>
-                <div className="pago-content">
-                    {metodoPago === 'tarjeta' && <FormularioTarjeta />}
-                    {metodoPago === 'mercadopago' && (
-                        <div className="mercadopago-wallet-container">
-                            {loading && <p>Generando enlace de pago...</p>}
-                            {error && <p className="error-message">{error}</p>}
-                            {preferenceId && !loading && !error && (
-                                <MercadoPagoButton preferenceId={preferenceId} />
-                            )}
-                        </div>
-                    )}
-                </div>
-            </div>
-            <div className="pago-panel-derecho">
-                <h2>Resumen de tu compra</h2>
-                <ResumenEvento />
-            </div>
-        </div>
-    );
-};
-
-export default PaginaPago;
+      }
+      setError(errorMessage(e));
+      setLoading(false);
+    }
+  }
+  return (
+    <div className="pagina-pago-layout">
+      <div className="pago-panel-izquierdo">
+        <h1>Confirmá tu compra</h1>
+        {valid ? (
+          <>
+            {config &&
+              (config.mode === 'demo' ? (
+                <DemoNotice />
+              ) : (
+                <p>Pagá con los medios disponibles en Mercado Pago.</p>
+              ))}
+            <p>
+              Tu cupo se reservará por hasta 15 minutos al abrir el pago. Los
+              pagos aprobados después del vencimiento se reembolsarán.
+            </p>
+            {config && !config.purchasesEnabled && (
+              <p>Las compras están temporalmente deshabilitadas.</p>
+            )}
+            <button
+              disabled={loading || !config?.purchasesEnabled}
+              onClick={() => void pay()}
+            >
+              {loading
+                ? 'Preparando pago...'
+                : !config
+                  ? 'Cargando opciones de pago...'
+                  : config.mode === 'demo'
+                    ? 'Continuar al pago demo'
+                    : 'Pagar con Mercado Pago'}
+            </button>
+          </>
+        ) : (
+          <p>Seleccioná un sector y cantidad antes de pagar.</p>
+        )}
+        {error && <p role="alert">{error}</p>}
+        {configError && <p role="alert">{configError}</p>}
+        {compraId && (
+          <p>
+            <Link to={'/compra-pendiente?external_reference=' + compraId}>
+              Ver estado de la compra
+            </Link>
+          </p>
+        )}
+        <Link to={'/evento/' + id}>Volver al evento</Link>
+      </div>
+      <div className="pago-panel-derecho">
+        <ResumenEvento />
+      </div>
+    </div>
+  );
+}

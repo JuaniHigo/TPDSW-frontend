@@ -1,22 +1,14 @@
-import { createContext } from "react";
-
-// Tipo de usuario según tu entidad
-export type User = {
-  idUsuario: number;
-  dni: string;
-  nombre: string;
-  apellido: string;
-  email: string;
-  rol: string; // "admin" o "user"
-};
-
-// Tipo del contexto
-export type AuthContextType = {
+import { createContext } from 'react';
+import type { User } from '../types/User';
+export type { User };
+export interface AuthContextType {
   token: string | null;
   user: User | null;
-  login: (newToken: string, userData: User) => void;
+  loading: boolean;
+  login: (token: string, user: User) => void;
   logout: () => void;
-};
-
-// Contexto
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+  updateUser: (user: User) => void;
+}
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined,
+);
