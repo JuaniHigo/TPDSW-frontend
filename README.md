@@ -47,6 +47,7 @@ El recorrido comprobado incluye crear clubes, estadio, sector, evento y precio; 
 
 - Todos los servicios usan el cliente Axios compartido, IDs numéricos, camelCase y fechas UTC.
 - La sesión se restaura consultando /users/me; una respuesta 401 autenticada limpia sesión y selección.
+- El token de sesión se guarda en `localStorage` y dura 1 hora. Un script inyectado mediante XSS podría leerlo; por eso es importante prevenir la inyección de contenido. Migrar a cookies `httpOnly` requiere coordinar cookies, CSRF y CORS con credenciales en el backend y queda fuera de este plan.
 - Perfil y configuración usan datos reales y permiten editar nombre, apellido, nacimiento y cambiar contraseña.
 - La selección se conserva en sessionStorage antes del login y tras recargar.
 - El backend calcula el precio y reserva por 15 minutos. El retorno de Mercado Pago consulta el estado real; no supone aprobación por la URL.
