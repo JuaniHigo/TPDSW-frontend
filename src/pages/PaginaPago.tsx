@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { isAxiosError } from 'axios';
 import { Link, useParams } from 'react-router-dom';
 import { usePurchase } from '../hooks/usePurchase';
@@ -7,6 +7,7 @@ import ResumenEvento from '../components/ResumenEvento';
 import { usePaymentConfig } from '../hooks/usePaymentConfig';
 import DemoNotice from '../components/DemoNotice';
 import './PaginaPago.css';
+const RETRY_DELAY_MS = 5000;
 export default function PaginaPago() {
   const { config, error: configError } = usePaymentConfig();
   const { purchase, setPurchase } = usePurchase(),
@@ -14,12 +15,20 @@ export default function PaginaPago() {
   const [loading, setLoading] = useState(false),
     [error, setError] = useState('');
   const [compraId, setCompraId] = useState<number | null>(null);
+  const [rateLimited, setRateLimited] = useState(false),
+    [tooManyPending, setTooManyPending] = useState(false);
+  useEffect(() => {
+    if (!rateLimited) return;
+    const timeout = window.setTimeout(() => setRateLimited(false), RETRY_DELAY_MS);
+    return () => window.clearTimeout(timeout);
+  }, [rateLimited]);
   const valid =
     purchase.eventoId === id && purchase.sectorId && purchase.quantity > 0;
   async function pay() {
-    if (!valid || !config?.purchasesEnabled) return;
+    if (!valid || !config?.purchasesEnabled || loading || rateLimited) return;
     setLoading(true);
     setError('');
+    setTooManyPending(false);
     const key = purchase.idempotencyKey || crypto.randomUUID();
     setPurchase({ ...purchase, idempotencyKey: key });
     try {
@@ -38,7 +47,9 @@ export default function PaginaPago() {
       sessionStorage.setItem('lastCompraId', String(data.idCompra));
       window.location.assign(data.checkoutUrl);
     } catch (e) {
-      if (isAxiosError<{ errors?: { idCompra?: number } }>(e)) {
+      if (isAxiosError<{ code?: string; errors?: { idCompra?: number } }>(e)) {
+        if (e.response?.status === 429) setRateLimited(true);
+        setTooManyPending(e.response?.data.code === 'TOO_MANY_PENDING');
         const compra = e.response?.data.errors?.idCompra;
         if (compra) {
           setCompraId(compra);
@@ -69,7 +80,7 @@ export default function PaginaPago() {
               <p>Las compras están temporalmente deshabilitadas.</p>
             )}
             <button
-              disabled={loading || !config?.purchasesEnabled}
+              disabled={loading || rateLimited || !config?.purchasesEnabled}
               onClick={() => void pay()}
             >
               {loading
@@ -86,6 +97,11 @@ export default function PaginaPago() {
         )}
         {error && <p role="alert">{error}</p>}
         {configError && <p role="alert">{configError}</p>}
+        {tooManyPending && (
+          <p>
+            <Link to="/mis-entradas">Ver estado de la compra</Link>
+          </p>
+        )}
         {compraId && (
           <p>
             <Link to={'/compra-pendiente?external_reference=' + compraId}>
